@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-plex-sans), "IBM Plex Sans", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace,
+    "SFMono-Regular", monospace;
+
+  /* Restricted palette: one primary, one accent, clean grays */
+  --color-canvas: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-raised: #f7f8fa;
+  --color-line: #e4e7ec;
+  --color-line-strong: #c9d0da;
+  --color-ink: #1d2433;
+  --color-ink-2: #55606f;
+  --color-ink-3: #8a94a6;
+  --color-primary: #2b59e0;
+  --color-primary-ink: #2146ba;
+  --color-primary-tint: #ebf0fc;
+  --color-accent: #e05206;
+  --color-accent-tint: #fcefe5;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas font-sans text-sm text-ink antialiased;
+  }
+
+  ::selection {
+    background: #d7e1fa;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-primary) 60%, transparent);
+    outline-offset: 1px;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded border border-line bg-surface;
+  }
+
+  .btn {
+    @apply inline-flex h-8 shrink-0 cursor-pointer items-center justify-center gap-2 rounded border border-line bg-surface px-4 text-[13px] font-medium text-ink transition-colors hover:bg-raised disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply border-primary bg-primary text-white hover:border-primary-ink hover:bg-primary-ink;
+  }
+
+  .btn-icon {
+    @apply inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded border border-transparent text-ink-3 transition-colors hover:border-line hover:bg-raised hover:text-ink;
+  }
+
+  .input {
+    @apply h-8 w-full rounded border border-line bg-surface px-2 text-[13px] text-ink placeholder:text-ink-3 focus:border-primary focus:ring-2 focus:ring-primary/15;
+  }
+
+  .label {
+    @apply text-xs font-medium text-ink-2;
+  }
+
+  .tab {
+    @apply inline-flex h-10 cursor-pointer items-center gap-2 border-b-2 border-transparent px-0 text-[13px] font-medium text-ink-2 transition-colors hover:text-ink;
+  }
+
+  .tab-active {
+    @apply border-primary text-ink;
+  }
+}
+
+/* Hide toolbar chrome during programmatic (PDF) capture */
+.exporting .no-print {
+  display: none !important;
+}
+
+/* Paper output: A4 landscape, chrome hidden, no clipped widgets */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  aside,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  .print-root {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .card {
+    overflow: visible !important;
+    break-inside: avoid;
+  }
+
+  .widget-body-table {
+    height: auto !important;
+  }
+
+  .table-scroll {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
